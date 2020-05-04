@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: openjdk8
+  pre_build:
+    commands:
+    - echo Nothing to do in the pre_build phase...
+  build:
+    commands:
+    - echo Build started on `date`
+    - mkdir $CODEBUILD_SRC_DIR/src/main/resources/public
+    - cp -r $CODEBUILD_SRC_DIR_FrontendBuiltArtifact/* $CODEBUILD_SRC_DIR/src/main/resources/public
+    - mvn clean package -f pom.xml -P prod
+  post_build:
+    commands:
+    - echo Build completed on `date`
+artifacts:
+  files:
+  - target/everyday-task-board-api-0.0.1-SNAPSHOT.jar
